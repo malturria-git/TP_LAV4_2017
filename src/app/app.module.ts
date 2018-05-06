@@ -55,6 +55,12 @@ import { InputJugadoresComponent } from './componentes/input-jugadores/input-jug
 import { SexoPipe } from './pipes/sexo.pipe';
 import { FooterComponent } from './footer/footer.component';;
 import { JuegoTipeoComponent } from './componentes/juego-tipeo/juego-tipeo.component';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatSnackBar,MatSnackBarModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,10 +90,12 @@ import { JuegoTipeoComponent } from './componentes/juego-tipeo/juego-tipeo.compo
     JuegoTipeoComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    MatButtonModule, MatCheckboxModule,
     RuteandoModule,
-    HttpModule,
+    HttpModule,MatSnackBarModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6f8x4IjRlesQ3oETc6BXYQHVRTOlY3Ys'
     })
@@ -95,7 +103,7 @@ import { JuegoTipeoComponent } from './componentes/juego-tipeo/juego-tipeo.compo
     // importo el ruteo
     // RouterModule.forRoot(MiRuteo)
   ],
-  providers: [ JuegoServiceService, MiHttpService,PaisesService,ArchivosJugadoresService,JugadoresService],
+  providers: [ JuegoServiceService, MiHttpService,PaisesService,ArchivosJugadoresService,JugadoresService,MatSnackBar,MatButtonModule, MatCheckboxModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

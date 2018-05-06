@@ -1,18 +1,21 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer,OnDestroy } from '@angular/core';
 import { Input } from '@angular/core';
 import { JuegoTipeo } from '../../clases/juego-tipeo';
-//Observable para el timer 
+// Observable para el timer 
 import { Observable } from 'rxjs/Rx';
-//para el focus
+// para el focus
 import { Renderer2 } from '@angular/core';
+// material
+import {MatSnackBar} from '@angular/material';
+import {Subscription} from "rxjs";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
+
 
 @Component({
   selector: 'app-juego-tipeo',
   templateUrl: './juego-tipeo.component.html',
   styleUrls: ['./juego-tipeo.component.css']
 })
-
-
 
 export class JuegoTipeoComponent implements OnInit {
 palabra:string='';
@@ -23,59 +26,53 @@ nuevoJuego: JuegoTipeo;
 Mensajes:string;
 inputPalabra:any;
 reiniciar:boolean=false;
+timer:any;
+private subscription: Subscription;
 
-  constructor( public renderer: Renderer2) { 
+  constructor( public renderer: Renderer2,public snackBar: MatSnackBar) { 
     this.nuevoJuego = new JuegoTipeo();
   }
-  
+  /////////////////////////////////
   ngOnInit() {
-    let timer = Observable.timer(0,1000);
-    timer.subscribe(t=>this.segundos = t);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   iniciarJuego(dif:string){
-        //para el reinicio
-        this.reiniciar=false;
-        this.segundos=0;
+    //para el reinicio
+    
+
+    this.timer = TimerObservable.create(0, 1000);
+    this.subscription = this.timer.subscribe(t => {
+      this.segundos = t;
+    });
+    this.reiniciar=false;
+    this.segundos=0;
     //inicio
     this.palabra=this.nuevoJuego.generarPalabra(dif);
     this.ocultaInstrucciones=true;
-    //timer
-    let timer = Observable.timer(0,1000);
-    timer.subscribe(t=>this.segundos = t);
+
     //focus
     this.inputPalabra =  this.renderer.selectRootElement('#inputPalabra');
+    console.log(this.timer);
     setTimeout(() => this.inputPalabra.focus(), 0);
-
- }
-
-juega(){
-  if (this.nuevoJuego.verificar()){
-   // this.enviarJuego.emit(this.nuevoJuego);
-   // this.MostarMensaje("Sos un Genio!!!",true);
-   this.MostarMensaje("Bien hecho!! Tardaste "+this.segundos+" segundos, la proxima lo haces mejor");
-   this.reiniciar=true;
-   
-}else{
-  this.MostarMensaje("Sigue intentando, pasa el tiempo!");
-  setTimeout(() => this.inputPalabra.focus(), 0);
-}
-}
-
-MostarMensaje(mensaje:string="este es el mensaje",ganador:boolean=false) {
-  this.Mensajes=mensaje;    
-  var x = document.getElementById("snackbar");
-  if(ganador)
-    {
-      x.className = "show Ganador";
-    }else{
-      x.className = "show Perdedor";
+    setTimeout(() => this.inputPalabra = ' ');
     }
-  var modelo=this;
-  setTimeout(function(){ 
-    x.className = x.className.replace("show", "");
 
-   }, 3000);
-  console.info("objeto",x);
+  juega(){
+    console.log(this.segundos);
+    if (this.nuevoJuego.verificar()){
+      this.snackBar.open("Bien hecho!! Tardaste "+this.segundos+" segundos, la proxima lo haces mejor", '', {duration: 3000});
+      this.reiniciar=true;
+      this.segundos=0;
+      if(this.subscription)
+    this.subscription.unsubscribe();
+      } else {
+      this.snackBar.open("Sigue intentando, pasa el tiempo", '', {duration: 3000});
+      this.inputPalabra =  this.renderer.selectRootElement('#inputPalabra');
+      setTimeout(() => this.inputPalabra.focus(), 0);
+      } 
+  }
 
- }  }
+}

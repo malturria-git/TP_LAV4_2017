@@ -23,6 +23,8 @@ ingreso='';
       }
 
       public verificar() {
+        console.log("comparando this.ingreso === this.palabra"+this.ingreso+" "+ this.palabra);
+        this.gano = false;
         if (this.ingreso === this.palabra) {
           this.gano = true;
         }
