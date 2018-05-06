@@ -53,7 +53,8 @@ import { MapaDeGoogleComponent } from './componentes/mapa-de-google/mapa-de-goog
 import { AgmCoreModule } from '@agm/core';
 import { InputJugadoresComponent } from './componentes/input-jugadores/input-jugadores.component';
 import { SexoPipe } from './pipes/sexo.pipe';
-
+import { FooterComponent } from './footer/footer.component';;
+import { JuegoTipeoComponent } from './componentes/juego-tipeo/juego-tipeo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +79,9 @@ import { SexoPipe } from './pipes/sexo.pipe';
     MapaDeGoogleComponent,
     JugadoresListadoComponent,
     InputJugadoresComponent,
-    SexoPipe
+    SexoPipe,
+    FooterComponent,
+    JuegoTipeoComponent
   ],
   imports: [
     BrowserModule,

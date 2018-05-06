@@ -1,0 +1,30 @@
+<div class='back-image logon'>
+    <div class="container">
+              <div class="form-box">
+                <div [hidden]="ocultaInstrucciones">
+                    <h1>Instrucciones: </h1>
+                    <h4>¡tipea la  palabra lo mas rapido posible! En caso de fallar puedes seguir intentando.</h4><br><br><br>
+                    <p><button style="margin-top: 15px;" class="action-button shadow animate blue"  (click)='iniciarJuego("Facil")'>Jugar Facil</button></p>
+                    <p><button class="action-button shadow animate green" (click)='iniciarJuego("Dificil")'>Jugar Dificil</button></p>
+                 
+                </div>
+                
+                <div [hidden]="!ocultaInstrucciones">
+                <h2>Tipea: {{palabra}}</h2> <br><br>
+                <!--#inputPalabra == reference variable  -->
+                <input type="text" id='inputPalabra' [(ngModel)]="nuevoJuego.ingreso" name="ingreso" required>
+                    <button [hidden]="reiniciar" style="margin-top: 15px;" class="action-button shadow animate yellow" (click)="juega()"> validar </button>
+                    <p><button  [hidden]="!reiniciar" style="margin-top: 15px;" class="action-button shadow animate blue"  (click)='iniciarJuego("Facil")'>Jugar Facil</button></p>
+                    <p><button [hidden]="!reiniciar" class="action-button shadow animate green" (click)='iniciarJuego("Dificil")'>Jugar Dificil</button></p>
+                    
+                
+
+                
+                </div>
+                
+                <div id="snackbar">{{Mensajes}}</div>
+              </div>
+    </div>
+</div>
+
+
